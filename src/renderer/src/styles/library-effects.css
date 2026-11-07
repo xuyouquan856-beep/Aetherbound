@@ -1,0 +1,94 @@
+/* The approved preview's optical layers, separated from layout and UI tokens. */
+.quote-home__inscription { position: relative; }
+.app-shell--home .quote-home__text {
+  background-image:
+    linear-gradient(118deg, transparent 38%, #cef6ff88 43%, #fff 46%, #fff 49%, #d1efffaa 52%, transparent 57%),
+    repeating-linear-gradient(174deg, #fff 0%, #eefaff 12%, #9dbbdb 19%, #fff 22%, #fff 26%, #deeffb 33%, #8baed1 37%, #f6fdff 40%, #fff 46%, #e2f4ff 50%);
+  background-size: 320% 100%, 100% 100%;
+  background-position: 100% 0, 0 0;
+  -webkit-text-stroke: .3px #efffff99;
+  filter: drop-shadow(0 0 .5px #fff) drop-shadow(0 0 8px #9ee7ff55) drop-shadow(0 0 18px #65baff22);
+  text-shadow: none;
+  animation: gemstone-sheen 6.5s ease-in-out infinite;
+}
+.quote-jewel {
+  position: absolute;
+  z-index: 2;
+  display: block;
+  width: var(--spark-size);
+  height: var(--spark-size);
+  pointer-events: none;
+  background: radial-gradient(ellipse, #fff 0%, #dcf9ff 15%, #7ccfff44 35%, transparent 68%);
+  filter: drop-shadow(0 0 4px #c7f7ff);
+  animation: jewel-spark 6.5s ease-in-out var(--spark-delay) infinite;
+  opacity: 0;
+}
+.quote-jewel::before, .quote-jewel::after {
+  content: "";
+  position: absolute;
+  inset: 46% 0;
+  background: linear-gradient(90deg, transparent, #fff, transparent);
+  box-shadow: 0 0 4px #bcecff;
+}
+.quote-jewel::after { transform: rotate(90deg); }
+@keyframes gemstone-sheen {
+  0%, 12% { background-position: 100% 0, 0 0; }
+  68%, 100% { background-position: 0% 0, 0 0; }
+}
+@keyframes jewel-spark {
+  0%, 18%, 48%, 100% { opacity: 0; transform: scale(.3) rotate(-12deg); }
+  29% { opacity: 1; transform: scale(1.2) rotate(0); }
+  35% { opacity: .5; transform: scale(.75) rotate(10deg); }
+  40% { opacity: .85; transform: scale(1) rotate(14deg); }
+}
+
+.app-shell .app-sidebar__brand-title,
+.app-shell .library-home__title h1,
+.app-shell .library-page-title h1,
+.app-shell .home-section__header h2 {
+  background: linear-gradient(110deg, #a8d5f3 0%, #b7d4fa 22%, #78dcee 39%, #e1ffff 47%, #8feaff 53%, #c0cff9 70%, #a8d5f3 100%);
+  background-size: 260% 100%;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: display-current 8s linear infinite;
+  text-shadow: none;
+}
+.app-shell .app-sidebar__brand-title { animation-delay: -3s; }
+.app-shell .home-section__header h2 { animation-delay: -5s; }
+.app-shell .home-continue, .app-shell .button--primary {
+  background: linear-gradient(105deg, #b8cffa, #a4e9f4 45%, #d4fcff 53%, #a4e9f4 62%, #b8cffa);
+  background-size: 250% 100%;
+  animation: button-current 7s ease-in-out infinite;
+}
+@keyframes display-current { from { background-position: 200% 50%; } to { background-position: -60% 50%; } }
+@keyframes button-current { 0%, 100% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } }
+
+.butterfly-trails {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  pointer-events: none; mix-blend-mode: screen;
+}
+.sky-flight__butterfly {
+  position: absolute; left: 0; top: 0; width: 68px; height: 68px;
+  pointer-events: none; opacity: .62;
+}
+.sky-flight__butterfly--1 { width: 43px; height: 43px; opacity: .43; }
+.sky-flight__butterfly--2 { width: 52px; height: 52px; opacity: .48; }
+.sky-flight__butterfly svg {
+  width: 100%; height: 100%;
+  filter: drop-shadow(0 0 6px #83eaff88);
+  transform-origin: 50% 63%;
+  animation: butterfly-flap 1.15s ease-in-out infinite;
+}
+.sky-flight__butterfly--1 svg { animation-duration: .85s; animation-delay: -.4s; }
+@keyframes butterfly-flap {
+  0%, 100% { transform: perspective(180px) rotateY(-28deg) scaleX(.92); }
+  50% { transform: perspective(180px) rotateY(55deg) scaleX(.6); }
+}
+.living-sky[data-flight="paused"] * { animation-play-state: paused !important; }
+.living-sky[data-active="false"] .sky-flight__butterfly { display: none; }
+.app-shell[data-motion="off"] .quote-jewel { display: none; }
+@media (prefers-reduced-motion: reduce) {
+  .app-shell *, .app-shell *::before, .app-shell *::after { animation: none !important; }
+  .quote-jewel, .sky-flight__butterfly { display: none; }
+}

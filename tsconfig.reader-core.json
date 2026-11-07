@@ -1,0 +1,8 @@
+{
+  "extends": "./tsconfig.json",
+  "//": "Nothing is excluded except build output. Every source and test file is type-checked.",
+  "//2": "This used to exclude the library-scan subsystem and the librarian. That is how 135 type errors and 47 broken tests accumulated without anyone noticing: code outside the compiler is code nobody is watching. The librarian is deleted, and scan was decoupled so it can live inside this config (see src/backend/library-scan/model-contracts.ts).",
+  "//3": "Do not add exclusions here to make a build pass. Fix the code, or delete it.",
+  "include": ["src", "tests", "scripts", "*.ts"],
+  "exclude": ["node_modules", "out", "release"]
+}

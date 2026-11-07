@@ -1,0 +1,26 @@
+export const readingRecordStatements = [
+  `CREATE TABLE reading_records (
+    id TEXT PRIMARY KEY,
+    kind TEXT NOT NULL CHECK(kind IN ('bookmark','highlight','note','quote')),
+    book_id TEXT REFERENCES books(id) ON DELETE SET NULL,
+    book_title TEXT NOT NULL,
+    author TEXT,
+    text TEXT NOT NULL,
+    excerpt TEXT NOT NULL DEFAULT '',
+    source_url TEXT NOT NULL DEFAULT '',
+    note TEXT NOT NULL,
+    color TEXT NOT NULL CHECK(color IN ('cyan','yellow','pink')),
+    location_json TEXT,
+    location_key TEXT,
+    end_location_json TEXT,
+    enabled INTEGER NOT NULL CHECK(enabled IN (0,1)),
+    pinned INTEGER NOT NULL CHECK(pinned IN (0,1)),
+    created_at TEXT NOT NULL,
+    updated_at TEXT NOT NULL
+  )`,
+  "CREATE INDEX reading_records_book_kind_idx ON reading_records(book_id,kind,created_at DESC,id DESC)",
+  "CREATE INDEX reading_records_kind_idx ON reading_records(kind,created_at DESC,id DESC)",
+  "CREATE UNIQUE INDEX reading_records_bookmark_unique_idx ON reading_records(book_id,location_key) WHERE kind='bookmark' AND book_id IS NOT NULL AND location_key IS NOT NULL",
+  "CREATE UNIQUE INDEX reading_records_quote_unique_idx ON reading_records(book_id,text,COALESCE(location_json,'')) WHERE kind='quote' AND book_id IS NOT NULL",
+  "CREATE UNIQUE INDEX reading_records_single_pinned_quote_idx ON reading_records(pinned) WHERE kind='quote' AND pinned=1",
+] as const;

@@ -1,0 +1,65 @@
+{
+  "name": "aetherbound",
+  "productName": "Aetherbound",
+  "description": "Aetherbound is a private local-first TXT and EPUB desktop reader.",
+  "version": "0.5.0-beta.1",
+  "private": true,
+  "author": "xuyouquan856-beep",
+  "repository": "https://github.com/xuyouquan856-beep/Aetherbound",
+  "license": "MIT",
+  "type": "module",
+  "main": "out/main/index.js",
+  "scripts": {
+    "predev": "electron-vite build",
+    "dev": "electron-vite dev",
+    "build": "electron-vite build",
+    "typecheck": "tsc -p tsconfig.reader-core.json --noEmit",
+    "test": "vitest run",
+    "test:e2e": "pnpm build && playwright test",
+    "test:e2e:release": "playwright test tests/e2e/release-smoke.e2e.ts",
+    "verify": "pnpm test && pnpm typecheck && pnpm build",
+    "corpus:smoke": "tsx scripts/corpus-smoke.ts",
+    "scan:smoke": "tsx scripts/scan-smoke.ts",
+    "library:recovery": "tsx scripts/library-recovery/cli.ts",
+    "package:dir": "pnpm build && electron-builder --dir --win --x64 --publish never -c.directories.output=release/distribution",
+    "package:win": "pnpm build && electron-builder --win --x64 --publish never -c.directories.output=release/distribution"
+  },
+  "dependencies": {
+    "@phosphor-icons/react": "2.1.10",
+    "better-sqlite3": "13.0.1",
+    "chardet": "2.2.0",
+    "foliate-js": "1.0.1",
+    "iconv-lite": "0.6.3",
+    "jszip": "3.10.1",
+    "linkedom": "0.18.13",
+    "react": "19.2.7",
+    "react-dom": "19.2.7",
+    "zod": "4.4.3"
+  },
+  "devDependencies": {
+    "@testing-library/jest-dom": "6.9.1",
+    "@testing-library/react": "16.3.2",
+    "@playwright/test": "1.61.1",
+    "@types/better-sqlite3": "7.6.13",
+    "@types/node": "24.10.13",
+    "@types/react": "19.2.14",
+    "@types/react-dom": "19.2.3",
+    "@vitejs/plugin-react": "5.1.4",
+    "electron": "43.1.1",
+    "electron-builder": "26.15.3",
+    "electron-vite": "5.0.0",
+    "jsdom": "27.4.0",
+    "playwright": "1.61.1",
+    "tsx": "4.20.6",
+    "typescript": "5.9.3",
+    "vite": "7.3.6",
+    "vitest": "4.1.10"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "better-sqlite3",
+      "electron",
+      "esbuild"
+    ]
+  }
+}

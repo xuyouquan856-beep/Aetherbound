@@ -1,0 +1,63 @@
+.quote-library { max-width: 1180px; margin: 0 auto; color: var(--ink); }
+.quote-library__header { display: flex; align-items: end; justify-content: space-between; gap: 24px; margin-bottom: 28px; }
+.quote-library__eyebrow { color: var(--accent); font-size: 11px; font-weight: 700; letter-spacing: .16em; }
+.quote-library h1 { font-size: 32px; margin: 5px 0 6px; }
+.quote-library__header p { color: var(--ink-muted); margin: 0; font-size: 14px; }
+.quote-library__header-actions { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 8px; }
+.quote-library button { cursor: pointer; }
+.quote-library__header-actions button, .quote-library__pages button, .quote-modal__actions button, .quote-modal > button { display: inline-flex; align-items: center; justify-content: center; gap: 7px; min-height: 38px; padding: 7px 12px; color: var(--ink); border: 1px solid var(--line); border-radius: var(--radius-sm); background: var(--surface-strong); }
+.quote-library__header-actions button:first-child, .quote-modal__actions button:last-child { color: white; background: var(--accent); border-color: var(--accent); }
+.quote-library button:disabled { opacity: .5; cursor: not-allowed; }
+.quote-library__error { padding: 12px; border: 1px solid #b85a53; color: #b44139; border-radius: var(--radius-sm); }
+.quote-library__tools { display: flex; align-items: end; gap: 14px; margin-bottom: 18px; }
+.quote-library__tools label, .quote-editor label { display: grid; gap: 7px; color: var(--ink-muted); font-size: 12px; font-weight: 650; }
+.quote-library__tools label:first-child { flex: 1; }
+.quote-library__tools input, .quote-library__tools select, .quote-editor input:not([type=checkbox]), .quote-editor textarea, .quote-editor select, .quote-modal > textarea { width: 100%; min-height: 38px; padding: 8px 10px; color: var(--ink); background: var(--surface-strong); border: 1px solid var(--line); border-radius: var(--radius-sm); font: inherit; }
+.quote-library__tools > span { color: var(--ink-muted); font-size: 13px; padding-bottom: 11px; white-space: nowrap; }
+.quote-library__grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+.quote-card { display: flex; flex-direction: column; min-height: 180px; padding: 18px; border: 1px solid var(--line); border-radius: var(--radius-md); background: var(--surface-strong); }
+.quote-card--pinned { border-color: var(--accent); box-shadow: inset 3px 0 var(--accent); }
+.quote-card__body { display: block; width: 100%; flex: 1; border: 0; background: transparent; text-align: left; color: var(--ink); padding: 0; }
+.quote-card__body blockquote { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 3; overflow: hidden; overflow-wrap: anywhere; white-space: pre-wrap; margin: 0 0 12px; font: 17px/1.55 Georgia, serif; }
+.quote-card__body span { display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-size: 12px; color: var(--ink-muted); }
+.quote-card__actions { display: flex; align-items: center; gap: 10px; padding-top: 12px; margin-top: 14px; border-top: 1px solid var(--line); }
+.quote-card__actions label { display: inline-flex; align-items: center; gap: 6px; color: var(--ink-muted); font-size: 12px; margin-right: auto; }
+.quote-card__actions button { border: 0; padding: 4px; background: transparent; color: var(--accent); font-size: 12px; }
+.quote-library__empty { padding: 70px 20px; text-align: center; color: var(--ink-muted); border: 1px dashed var(--line); border-radius: var(--radius-md); }
+.quote-library__pages { display: flex; justify-content: center; align-items: center; gap: 16px; margin-top: 22px; color: var(--ink-muted); font-size: 13px; }
+.quote-modal-backdrop { position: fixed; inset: 34px 0 0; z-index: 200; display: grid; place-items: center; padding: 20px 24px; background: rgb(5 13 26 / .68); backdrop-filter: blur(8px); }
+.quote-modal { width: min(680px, 100%); max-height: min(calc(100dvh - 76px), 800px); overflow: auto; padding: 24px; border: 1px solid var(--line); border-radius: var(--radius-md); color: var(--ink); background: var(--surface-strong); box-shadow: var(--shadow); }
+.quote-modal__head { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-bottom: 22px; }
+.quote-modal__head h2 { font-size: 21px; margin: 0; }
+.quote-modal__head button { border: 0; background: transparent; color: var(--ink); font-size: 26px; }
+.quote-modal__text { white-space: pre-wrap; overflow-wrap: anywhere; margin: 0; font: 21px/1.7 Georgia, serif; }
+.quote-modal p { overflow-wrap: anywhere; color: var(--ink-muted); }
+.quote-modal__note { padding: 15px; border-left: 3px solid var(--accent); background: var(--surface); white-space: pre-wrap; }
+.quote-modal__source { color: var(--accent); font-size: 13px; }
+.quote-modal__actions { display: flex; justify-content: flex-end; gap: 9px; margin-top: 24px; }
+.quote-editor { display: grid; gap: 16px; }
+.quote-editor__row { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+.quote-editor__check { display: flex !important; align-items: center; align-self: end; min-height: 38px; }
+.quote-editor__warning { margin: 0; color: #b44139 !important; font-size: 13px; }
+.quote-import-list { max-height: 260px; overflow: auto; margin-top: 14px; }
+.quote-import-list label { display: flex; gap: 10px; padding: 10px 0; border-bottom: 1px solid var(--line); overflow-wrap: anywhere; }
+.quote-home { max-width: 1280px; margin: 0 auto 24px; padding: 22px 26px; border: 1px solid var(--line); border-radius: var(--radius-md); background: var(--surface-strong); }
+.quote-home__heading { display: flex; justify-content: space-between; align-items: center; gap: 12px; color: var(--ink-muted); font-size: 12px; }
+.quote-home__heading button, .quote-home__text { border: 0; background: transparent; color: var(--accent); cursor: pointer; }
+.quote-home__text { display: block; width: 100%; padding: 15px 0 8px; text-align: left; color: var(--ink); font: 24px/1.55 Georgia, serif; white-space: pre-wrap; overflow-wrap: anywhere; }
+.quote-home cite { color: var(--ink-muted); font-size: 12px; font-style: normal; }
+.quote-library :focus-visible, .quote-modal :focus-visible, .quote-home :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+@media (max-width: 820px) { .quote-library__header { align-items: flex-start; flex-direction: column; } .quote-library__header-actions { justify-content: flex-start; } .quote-library__grid { grid-template-columns: 1fr; } }
+@media (max-width: 520px) { .quote-library__tools { flex-wrap: wrap; } .quote-library__tools label:first-child { flex-basis: 100%; } .quote-editor__row { grid-template-columns: 1fr; } }
+.app-sidebar__settings { display: grid; place-items: center; width: 42px; height: 42px; flex: 0 0 42px; margin-top: auto; margin-left: 4px; border: 0; border-radius: var(--radius-sm); background: transparent; color: var(--ink-muted); cursor: pointer; }
+.app-sidebar__settings:hover { color: var(--ink); background: color-mix(in srgb, var(--line) 30%, transparent); }
+.quote-library__kind-tabs { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
+.quote-card__kind-badge {
+  display: inline-block; margin-bottom: 6px; padding: 2px 7px; border-radius: 4px;
+  color: var(--accent); background: color-mix(in srgb, var(--accent) 12%, var(--surface));
+  font-size: 11px; font-weight: 650;
+}
+.quote-card__note-preview {
+  margin: 0 0 10px !important; padding-left: 10px; border-left: 2px solid var(--line);
+  color: var(--ink-muted); font-size: 13px; line-height: 1.5;
+}

@@ -1,0 +1,77 @@
+name: Windows release
+
+on:
+  push:
+    tags: ["v*"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - name: Check tag version
+        if: startsWith(github.ref, 'refs/tags/v')
+        shell: pwsh
+        run: |
+          $packageVersion = node -p "require('./package.json').version"
+          if ($env:GITHUB_REF_NAME -ne "v$packageVersion") { throw "Tag and package version differ" }
+      - run: pnpm verify
+      - run: pnpm package:win
+      - name: Smoke test packaged application
+        run: pnpm test:e2e:release
+        env:
+          READER_E2E_EXECUTABLE: release/distribution/win-unpacked/Aetherbound.exe
+      - name: Install, launch, and uninstall on disposable runner
+        shell: pwsh
+        run: |
+          $installer = Get-ChildItem -LiteralPath release/distribution -Filter 'Aetherbound-Setup-*.exe' -File | Select-Object -First 1
+          if (-not $installer) { throw 'Installer was not built.' }
+          ./scripts/test-installer.ps1 -Installer $installer.FullName
+      - name: Write SHA-256 checksums
+        shell: pwsh
+        run: |
+          Get-ChildItem -LiteralPath release/distribution -File |
+            Where-Object { $_.Extension -in '.exe', '.zip' } |
+            Get-FileHash -Algorithm SHA256 |
+            ForEach-Object { "$($_.Hash)  $(Split-Path $_.Path -Leaf)" } |
+            Set-Content -LiteralPath release/distribution/SHA256SUMS.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: aetherbound-windows
+          path: |
+            release/distribution/*.exe
+            release/distribution/*.zip
+            release/distribution/SHA256SUMS.txt
+          if-no-files-found: error
+
+  draft-release:
+    if: startsWith(github.ref, 'refs/tags/v')
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: aetherbound-windows
+          path: release-assets
+      - name: Create draft release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        run: |
+          args=(--draft --verify-tag --generate-notes)
+          if [[ "$GITHUB_REF_NAME" == *-* ]]; then args+=(--prerelease); fi
+          gh release create "$GITHUB_REF_NAME" release-assets/* "${args[@]}"

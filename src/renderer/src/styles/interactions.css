@@ -1,0 +1,47 @@
+:root { --interaction-ease: cubic-bezier(.22,1,.36,1); }
+.transition-presence { display: contents; }
+.transition-presence[data-state=closing] { pointer-events: none; }
+.dropdown-menu { transform-origin: top right; }
+.app-shell :is(.button,.primary-button,.text-action,.icon-button,.app-sidebar__settings,.home-display-slot,.home-display-results button) {
+  transition: translate 180ms var(--interaction-ease), scale 130ms var(--interaction-ease), background-color 180ms ease, border-color 180ms ease, box-shadow 180ms ease, color 180ms ease;
+}
+.app-shell :is(.button,.primary-button,.icon-button,.home-display-slot,.home-display-results button):active:not(:disabled) { scale: .975; translate: 0 1px; }
+.app-shell :is(.button,.icon-button):active:not(:disabled) { transform: none; }
+.app-shell :is(.text-action,.app-sidebar__settings):active:not(:disabled) { scale: .94; }
+.app-shell button:focus-visible { outline: 2px solid #b7efff; outline-offset: 4px; }
+.app-shell :is(input,textarea,select) { transition: border-color 160ms ease, box-shadow 160ms ease; }
+.app-shell :is(input,textarea,select):focus-visible { border-color: #afeaff; box-shadow: 0 0 0 3px #94ddff24; }
+.app-sidebar { transition: width 240ms var(--interaction-ease), padding 240ms var(--interaction-ease); }
+.app-sidebar__nav { position: relative; }
+.sidebar-selection { position: absolute; inset: 0 0 auto; pointer-events: none; border: 1px solid #7da7c5; border-radius: 3px; background: linear-gradient(110deg,#315574,#203a5b); box-shadow: inset 0 0 18px #a2e9ff09; transition: transform 260ms var(--interaction-ease), opacity 150ms ease; }
+.app-sidebar__nav[data-indicator=true] .app-sidebar__item[aria-current=page] { background: transparent; border-color: transparent; }
+.app-sidebar__item { position: relative; transition: color 160ms ease, background-color 160ms ease; }
+.app-sidebar__item svg { transition: scale 180ms var(--interaction-ease); }
+.app-sidebar__item:active svg { scale: .88; }
+.settings-switch { transition: background-color 180ms ease, border-color 180ms ease; }
+.settings-switch i { transition: transform 240ms var(--interaction-ease); }
+.book-tile__button { transition: scale 150ms var(--interaction-ease), background-color 160ms ease, box-shadow 180ms ease; }
+.book-tile__button:active:not(:disabled) { scale: .98; }
+.book-cover { transition: transform 260ms var(--interaction-ease), box-shadow 260ms ease; }
+.book-tile__check { transition: background-color 160ms ease, border-color 160ms ease, scale 180ms var(--interaction-ease); }
+.book-tile[data-selected=true] .book-tile__check { scale: 1.08; }
+.book-tile[data-holding=true] .book-cover { scale: .97; box-shadow: 0 0 0 2px #b3edff, 0 0 24px #8ce0ff50; transition-duration: 400ms; }
+.collection-shelf-card__button { transition: transform 240ms var(--interaction-ease), border-color 200ms ease, background-color 200ms ease, scale 150ms var(--interaction-ease); }
+.collection-shelf-card__button:active { scale: .985; }
+.collection-shelf-card__art { transition: translate 280ms var(--interaction-ease); }
+.collection-shelf-card__copy em b, .text-action svg { transition: translate 200ms var(--interaction-ease); }
+.collection-shelf-card__copy em b { display: inline-block; }
+@media (hover:hover) {
+  .app-shell :is(.button,.primary-button):hover:not(:disabled) { translate: 0 -1px; box-shadow: 0 4px 16px #82cfff20; }
+  .book-tile:not([data-selection-mode=true]) .book-tile__button:hover:not(:disabled) .book-cover { transform: translateY(-5px); box-shadow: 0 16px 30px #030c2555, 0 0 0 1px #b4eaff45; }
+  .hero-cover .book-tile__button:hover:not(:disabled) .book-cover { transform: translateY(-3px); }
+  .collection-shelf-card__button:hover .collection-shelf-card__art { translate: 0 -4px; }
+  .collection-shelf-card__button:hover .collection-shelf-card__copy em b { translate: 2px -2px; }
+  .text-action:hover svg { translate: 3px 0; }
+}
+.reader-transition-layer { transition: opacity 180ms var(--interaction-ease); }
+.reader-toolbar button, .reader-selection-tools button { transition: background-color 130ms ease, color 130ms ease, scale 130ms var(--interaction-ease); }
+.reader-toolbar button:active,.reader-selection-tools button:active { scale: .96; }
+@media(prefers-reduced-motion:reduce) {
+  .app-shell *, .reader-shell *, .reader-transition-layer { transition-duration: 0ms !important; }
+}

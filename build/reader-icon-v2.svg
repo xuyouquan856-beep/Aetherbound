@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <defs>
+    <radialGradient id="night" cx="50%" cy="38%" r="68%">
+      <stop stop-color="#264a75"/>
+      <stop offset=".52" stop-color="#122540"/>
+      <stop offset="1" stop-color="#091326"/>
+    </radialGradient>
+    <linearGradient id="left" x1="0" y1="0" x2=".8" y2="1">
+      <stop stop-color="#24428a"/>
+      <stop offset=".45" stop-color="#398dcd"/>
+      <stop offset=".85" stop-color="#91f0ff"/>
+      <stop offset="1" stop-color="#efffff"/>
+    </linearGradient>
+    <linearGradient id="right" x1="1" y1="0" x2="0" y2="1">
+      <stop stop-color="#456eb3"/>
+      <stop offset=".55" stop-color="#76d9ef"/>
+      <stop offset="1" stop-color="#f4ffff"/>
+    </linearGradient>
+    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="10"/>
+    </filter>
+  </defs>
+  <circle cx="256" cy="256" r="242" fill="url(#night)"/>
+  <circle cx="256" cy="256" r="236" fill="none" stroke="#92dfff" stroke-opacity=".7" stroke-width="5"/>
+  <circle cx="256" cy="256" r="221" fill="none" stroke="#b5efff" stroke-opacity=".24" stroke-width="2"/>
+  <g fill="#c9fbff" opacity=".8">
+    <circle cx="91" cy="147" r="3"/><circle cx="406" cy="94" r="2.5"/>
+    <circle cx="397" cy="363" r="2"/><circle cx="116" cy="380" r="2"/>
+  </g>
+  <g transform="translate(16 15) scale(10)" opacity=".75" filter="url(#glow)">
+    <path d="M24 29C17 25 10 18 5 2L8 25C9 31 17 33 24 29Z" fill="#55d8ff"/>
+    <path d="M25 29C27 17 35 9 44 3L38 24C35 31 30 32 25 29Z" fill="#a6f3ff"/>
+    <path d="M23 30C15 27 9 31 2 38L15 36L12 45C19 41 22 36 24 31Z" fill="#52b9ee"/>
+    <path d="M26 30C33 27 38 31 44 36L34 35L35 43C29 39 26 35 25 31Z" fill="#a1f1ff"/>
+  </g>
+  <g transform="translate(16 15) scale(10)">
+    <path d="M24 29C17 25 10 18 5 2L8 25C9 31 17 33 24 29Z" fill="url(#left)"/>
+    <path d="M25 29C27 17 35 9 44 3L38 24C35 31 30 32 25 29Z" fill="url(#right)"/>
+    <path d="M23 30C15 27 9 31 2 38L15 36L12 45C19 41 22 36 24 31Z" fill="url(#left)"/>
+    <path d="M26 30C33 27 38 31 44 36L34 35L35 43C29 39 26 35 25 31Z" fill="url(#right)"/>
+    <path d="M10 13L24 30L38 14M24 30L16 38M25 30L33 36" stroke="#dcffff" stroke-width=".6" opacity=".7" fill="none"/>
+    <path d="M24 25L25 36M24 26L20 20M25 26L29 20" stroke="#e7ffff" stroke-width="1.2" fill="none"/>
+  </g>
+</svg>

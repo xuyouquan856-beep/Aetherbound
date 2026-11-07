@@ -1,0 +1,58 @@
+export const epubStatements = [
+  `CREATE TABLE books_v2 (
+    id TEXT PRIMARY KEY,
+    format TEXT NOT NULL CHECK(format IN ('txt','epub')),
+    title TEXT NOT NULL,
+    author TEXT,
+    created_at TEXT NOT NULL,
+    updated_at TEXT NOT NULL
+  )`,
+  `CREATE TABLE book_sources_v2 (
+    id TEXT PRIMARY KEY,
+    book_id TEXT NOT NULL REFERENCES books_v2(id) ON DELETE CASCADE,
+    source_path TEXT NOT NULL,
+    quick_fingerprint_version INTEGER NOT NULL,
+    quick_fingerprint TEXT NOT NULL,
+    full_content_hash_algorithm TEXT,
+    full_content_hash TEXT,
+    file_size INTEGER NOT NULL,
+    modified_at TEXT NOT NULL,
+    source_revision TEXT NOT NULL UNIQUE,
+    availability_status TEXT NOT NULL CHECK(availability_status IN ('available','unavailable')),
+    verified_at TEXT NOT NULL
+  )`,
+  `CREATE TABLE reading_progress_v2 (
+    book_id TEXT PRIMARY KEY REFERENCES books_v2(id) ON DELETE CASCADE,
+    locator_version INTEGER NOT NULL,
+    locator_json TEXT NOT NULL,
+    source_revision TEXT NOT NULL,
+    updated_at TEXT NOT NULL
+  )`,
+  `CREATE TABLE reading_sessions_v2 (
+    id TEXT PRIMARY KEY,
+    book_id TEXT NOT NULL REFERENCES books_v2(id) ON DELETE CASCADE,
+    source_revision TEXT NOT NULL,
+    state TEXT NOT NULL CHECK(state IN ('open','closed','recovered','abandoned')),
+    started_at TEXT NOT NULL,
+    last_heartbeat_at TEXT NOT NULL,
+    ended_at TEXT,
+    start_locator_json TEXT,
+    last_locator_json TEXT,
+    end_locator_json TEXT
+  )`,
+  "INSERT INTO books_v2 SELECT * FROM books",
+  "INSERT INTO book_sources_v2 SELECT * FROM book_sources",
+  "INSERT INTO reading_progress_v2 SELECT * FROM reading_progress",
+  "INSERT INTO reading_sessions_v2 SELECT * FROM reading_sessions",
+  "DROP TABLE reading_sessions",
+  "DROP TABLE reading_progress",
+  "DROP TABLE book_sources",
+  "DROP TABLE books",
+  "ALTER TABLE books_v2 RENAME TO books",
+  "ALTER TABLE book_sources_v2 RENAME TO book_sources",
+  "ALTER TABLE reading_progress_v2 RENAME TO reading_progress",
+  "ALTER TABLE reading_sessions_v2 RENAME TO reading_sessions",
+  "CREATE UNIQUE INDEX book_sources_path_idx ON book_sources(source_path)",
+  "CREATE INDEX book_sources_fingerprint_idx ON book_sources(quick_fingerprint)",
+  "CREATE INDEX reading_sessions_state_idx ON reading_sessions(state,last_heartbeat_at)",
+] as const;
