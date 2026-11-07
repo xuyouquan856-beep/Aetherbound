@@ -7,7 +7,7 @@ import {
   rename,
   stat,
 } from "node:fs/promises";
-import { dirname, relative, sep } from "node:path";
+import { dirname, isAbsolute, relative, sep } from "node:path";
 import {
   JournalRecordSchema,
   PreviewBundleSchema,
@@ -19,8 +19,14 @@ import { resolveInsideRoot } from "./safe-paths.js";
 export type BatchResult = { batchId: string; moved: number };
 export type RollbackResult = { batchId: string; rolledBack: number };
 
-function relativeFromRoot(root: string, absolutePath: string): string {
-  return relative(root, absolutePath).split(sep).join("/");
+function relativeFromRoot(root: string, canonicalRoot: string, absolutePath: string): string {
+  for (const base of [canonicalRoot, root]) {
+    const candidate = relative(base, absolutePath);
+    if (candidate && candidate !== ".." && !candidate.startsWith(`..${sep}`) && !isAbsolute(candidate)) {
+      return candidate.split(sep).join("/");
+    }
+  }
+  throw new Error("Journal path escapes the library root.");
 }
 
 async function exists(path: string): Promise<boolean> {
@@ -148,8 +154,8 @@ export async function rollbackBatch(input: {
     .reverse();
   let rolledBack = 0;
   for (const record of completed) {
-    const sourceRelative = relativeFromRoot(canonicalRoot, record.sourceAbsolutePath);
-    const destinationRelative = relativeFromRoot(canonicalRoot, record.destinationAbsolutePath);
+    const sourceRelative = relativeFromRoot(input.root, canonicalRoot, record.sourceAbsolutePath);
+    const destinationRelative = relativeFromRoot(input.root, canonicalRoot, record.destinationAbsolutePath);
     const source = await resolveInsideRoot(input.root, sourceRelative);
     const destination = await resolveInsideRoot(input.root, destinationRelative);
     if (await exists(source)) throw new Error(`Original source path is occupied: ${sourceRelative}`);
@@ -182,8 +188,8 @@ export async function recoverInterruptedMoves(input: {
   let recovered = 0;
   let untouched = 0;
   for (const record of pending) {
-    const sourceRelative = relativeFromRoot(canonicalRoot, record.sourceAbsolutePath);
-    const destinationRelative = relativeFromRoot(canonicalRoot, record.destinationAbsolutePath);
+    const sourceRelative = relativeFromRoot(input.root, canonicalRoot, record.sourceAbsolutePath);
+    const destinationRelative = relativeFromRoot(input.root, canonicalRoot, record.destinationAbsolutePath);
     const source = await resolveInsideRoot(input.root, sourceRelative);
     const destination = await resolveInsideRoot(input.root, destinationRelative);
     const sourceExists = await exists(source);
