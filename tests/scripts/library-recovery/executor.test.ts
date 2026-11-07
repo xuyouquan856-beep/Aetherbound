@@ -1,5 +1,5 @@
 import { createHash } from "node:crypto";
-import { mkdir, mkdtemp, readFile, rename, rm, stat, writeFile } from "node:fs/promises";
+import { mkdir, mkdtemp, readFile, rename, rm, stat, symlink, unlink, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { afterEach, describe, expect, it } from "vitest";
@@ -101,6 +101,22 @@ describe("hash-verified recovery executor", () => {
     const rollback = await rollbackBatch({ root: fixture.root, journalPath: fixture.journalPath, batchId: result.batchId });
     expect(rollback.rolledBack).toBe(1);
     await expect(readFile(fixture.source, "utf8")).resolves.toBe("book-content");
+  });
+
+  it("rolls back when the library root is reached through a directory link", async () => {
+    const fixture = await setup();
+    const aliasDir = await mkdtemp(join(tmpdir(), "recovery-alias-"));
+    roots.push(aliasDir);
+    const alias = join(aliasDir, "library");
+    await symlink(fixture.root, alias, process.platform === "win32" ? "junction" : "dir");
+    try {
+      const result = await applyMoveBatch({ ...fixture, root: alias, expectedPreviewDigest: fixture.digest, limit: 1, firstBatch: true });
+      const rollback = await rollbackBatch({ root: alias, journalPath: fixture.journalPath, batchId: result.batchId });
+      expect(rollback.rolledBack).toBe(1);
+      await expect(readFile(fixture.source, "utf8")).resolves.toBe("book-content");
+    } finally {
+      await unlink(alias);
+    }
   });
 
   it("stops rollback if moved content changed", async () => {

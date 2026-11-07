@@ -3,6 +3,7 @@ import {
   mkdir,
   open,
   readFile,
+  realpath,
   rename,
   stat,
 } from "node:fs/promises";
@@ -134,6 +135,7 @@ export async function rollbackBatch(input: {
   journalPath: string;
   batchId: string;
 }): Promise<RollbackResult> {
+  const canonicalRoot = await realpath(input.root);
   const journal = await readJournal(input.journalPath);
   const rolledActionIds = new Set(
     journal.filter((record) => record.phase === "rolled-back").map((record) => record.actionId),
@@ -146,8 +148,8 @@ export async function rollbackBatch(input: {
     .reverse();
   let rolledBack = 0;
   for (const record of completed) {
-    const sourceRelative = relativeFromRoot(input.root, record.sourceAbsolutePath);
-    const destinationRelative = relativeFromRoot(input.root, record.destinationAbsolutePath);
+    const sourceRelative = relativeFromRoot(canonicalRoot, record.sourceAbsolutePath);
+    const destinationRelative = relativeFromRoot(canonicalRoot, record.destinationAbsolutePath);
     const source = await resolveInsideRoot(input.root, sourceRelative);
     const destination = await resolveInsideRoot(input.root, destinationRelative);
     if (await exists(source)) throw new Error(`Original source path is occupied: ${sourceRelative}`);
@@ -170,6 +172,7 @@ export async function recoverInterruptedMoves(input: {
   root: string;
   journalPath: string;
 }): Promise<{ recovered: number; untouched: number }> {
+  const canonicalRoot = await realpath(input.root);
   const journal = await readJournal(input.journalPath);
   const terminalActionIds = new Set(
     journal.filter((record) => record.phase !== "started").map((record) => record.actionId),
@@ -179,8 +182,8 @@ export async function recoverInterruptedMoves(input: {
   let recovered = 0;
   let untouched = 0;
   for (const record of pending) {
-    const sourceRelative = relativeFromRoot(input.root, record.sourceAbsolutePath);
-    const destinationRelative = relativeFromRoot(input.root, record.destinationAbsolutePath);
+    const sourceRelative = relativeFromRoot(canonicalRoot, record.sourceAbsolutePath);
+    const destinationRelative = relativeFromRoot(canonicalRoot, record.destinationAbsolutePath);
     const source = await resolveInsideRoot(input.root, sourceRelative);
     const destination = await resolveInsideRoot(input.root, destinationRelative);
     const sourceExists = await exists(source);
