@@ -2,7 +2,7 @@
   "name": "aetherbound",
   "productName": "Aetherbound",
   "description": "Aetherbound is a private local-first TXT and EPUB desktop reader.",
-  "version": "0.5.0-beta.1",
+  "version": "0.5.0-beta.2",
   "private": true,
   "author": "xuyouquan856-beep",
   "repository": "https://github.com/xuyouquan856-beep/Aetherbound",

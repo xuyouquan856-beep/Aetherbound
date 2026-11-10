@@ -33,6 +33,10 @@ jobs:
         run: pnpm test:e2e:release
         env:
           READER_E2E_EXECUTABLE: release/distribution/win-unpacked/Aetherbound.exe
+      - name: Verify reader settings and tools in packaged application
+        run: pnpm exec playwright test tests/e2e/reader-layout.e2e.ts tests/e2e/reading-tools.e2e.ts
+        env:
+          READER_E2E_EXECUTABLE: release/distribution/win-unpacked/Aetherbound.exe
       - name: Install, launch, and uninstall on disposable runner
         shell: pwsh
         run: |

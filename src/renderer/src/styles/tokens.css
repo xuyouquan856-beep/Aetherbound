@@ -21,7 +21,9 @@
   --focus: 0 0 0 3px rgb(25 113 95 / 0.24);
 }
 
+[data-theme="paper"] { color-scheme: light; }
 [data-theme="night"] {
+  color-scheme: dark;
   --accent: #63b9a4;
   --accent-hover: #82cbb9;
   --accent-on: #10241f;

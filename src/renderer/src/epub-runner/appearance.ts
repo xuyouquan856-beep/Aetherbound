@@ -15,7 +15,7 @@ export function publicationAppearanceCss(appearance: ReadingAppearance) {
     ? "ui-serif, 'Noto Serif CJK SC', 'Source Han Serif SC', serif"
     : "ui-sans-serif, 'Noto Sans CJK SC', 'Microsoft YaHei', sans-serif";
   const indent = appearance.firstLineIndent === "two-em" ? "2em" : "0";
-  return `:root{color-scheme:${appearance.theme === "night" ? "dark" : "light"};background:${background}!important;color:${foreground}!important}
+  return `:root{--theme-bg-color:${background};color-scheme:${appearance.theme === "night" ? "dark" : "light"};background:${background}!important;color:${foreground}!important}
     body{background:${background}!important;color:${foreground}!important;font-family:${family};font-size:${appearance.fontSize}px!important;line-height:${appearance.lineHeight}!important;letter-spacing:${appearance.letterSpacing}em}
     body p:not([class*="verse"]):not([class*="poem"]):not([style*="text-indent"]){margin-block-start:0;margin-block-end:${appearance.paragraphSpacing}em;text-indent:${indent}}
     pre,code,ruby,rt,table,nav,[role="doc-toc"]{letter-spacing:normal!important;text-indent:0!important}

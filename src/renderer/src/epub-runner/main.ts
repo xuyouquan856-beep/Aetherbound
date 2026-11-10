@@ -181,6 +181,8 @@ async function waitForStablePaint() {
 }
 
 async function applyLayoutValues(appearance: ReadingAppearance) {
+  document.documentElement.style.colorScheme = appearance.theme === "night" ? "dark" : "light";
+  document.documentElement.style.backgroundColor = appearance.theme === "night" ? "#1c201e" : "#f5f1e8";
   for (const [name, value] of Object.entries(paginatorLayoutAttributes(appearance))) {
     view?.renderer?.setAttribute(name, value);
   }

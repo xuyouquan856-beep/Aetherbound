@@ -223,7 +223,7 @@ function TxtReaderView({
   }, [details.chapters]);
 
   return (
-    <main className="reader-shell" data-panel-open={openPanel ?? "none"}>
+    <main className="reader-shell" data-theme={visibleAppearance.theme} data-panel-open={openPanel ?? "none"}>
       <section className="reader-stage">
         {error
           ? <div className="reader-message" role="alert">{error}</div>
@@ -468,7 +468,7 @@ function EpubReaderView({
   }, [details.publication.spine]);
 
   return (
-    <main className="reader-shell" data-panel-open={openPanel ?? "none"}>
+    <main className="reader-shell" data-theme={visibleAppearance.theme} data-panel-open={openPanel ?? "none"}>
       <section className="reader-stage">
         {error && (
           <div className="reader-message reader-message--overlay">
